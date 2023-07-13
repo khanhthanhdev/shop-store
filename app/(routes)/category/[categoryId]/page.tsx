@@ -1,13 +1,14 @@
-import getCategory from "@/actions/get-category";
-import getColors from "@/actions/get-colors";
-import getProducts from "@/actions/get-products";
-import getSizes from "@/actions/get-sizes";
-import Billboard from "@/components/billboard";
 import Container from "@/components/ui/container";
-import Filter from "./components/filter";
-import React from "react";
-import NoResult from "@/components/ui/no-results";
+import Billboard from "@/components/ui/billboard";
 import ProductCard from "@/components/ui/product-card";
+import NoResults from "@/components/ui/no-results";
+
+import getProducts from "@/actions/get-products";
+import getCategory from "@/actions/get-category";
+import getSizes from "@/actions/get-sizes";
+import getColors from "@/actions/get-colors";
+
+import Filter from "./components/filter";
 import MobileFilters from "./components/mobile-filters";
 
 export const revalidate = 0;
@@ -31,11 +32,8 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
     colorId: searchParams.colorId,
     sizeId: searchParams.sizeId,
   });
-
   const sizes = await getSizes();
-
   const colors = await getColors();
-
   const category = await getCategory(params.categoryId);
 
   return (
@@ -50,7 +48,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
               <Filter valueKey="colorId" name="Colors" data={colors} />
             </div>
             <div className="mt-6 lg:col-span-4 lg:mt-0">
-              {products.length === 0 && <NoResult />}
+              {products.length === 0 && <NoResults />}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {products.map((item) => (
                   <ProductCard key={item.id} data={item} />
